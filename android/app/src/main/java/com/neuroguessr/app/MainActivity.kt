@@ -296,6 +296,8 @@ class MainActivity : ComponentActivity() {
                         result?.let { r ->
                             ResultSheet(
                                 country, r, encMs, thumb,
+                                confidence = if (eng?.cfg?.hasConfidence == true) r.confidence else null,
+                                hitKm = eng?.cfg?.confHitKm ?: 25.0,
                                 onCopy = {
                                     val cm = getSystemService(android.content.ClipboardManager::class.java)
                                     cm.setPrimaryClip(

@@ -4,7 +4,7 @@ import android.content.Context
 import org.json.JSONObject
 
 /** The champion recipe's constants, exported alongside the index so the two can never drift. */
-class Config(json: JSONObject) {
+class Config(private val json: JSONObject) {
     val nRows = json.getInt("n_rows")
     val nCells = json.getInt("n_cells")
     val dim = json.getInt("dim")
@@ -36,6 +36,18 @@ class Config(json: JSONObject) {
     val e7Sd: DoubleArray = json.getJSONArray("e7_feat_sd").let { a ->
         DoubleArray(a.length()) { a.getDouble(it) }
     }
+
+    // Confidence model. Feature order is fixed by export/fit_confidence.py:
+    // agree10, agree25, agree100, top_sim, margin, entropy, log_cand
+    private fun arr(key: String, fallback: DoubleArray) =
+        json.optJSONArray(key)?.let { a -> DoubleArray(a.length()) { a.getDouble(it) } } ?: fallback
+
+    val confW = arr("conf_w", DoubleArray(0))
+    val confB = json.optDouble("conf_b", 0.0)
+    val confMu = arr("conf_mu", DoubleArray(0))
+    val confSd = arr("conf_sd", DoubleArray(0))
+    val confHitKm = json.optDouble("conf_hit_km", 25.0)
+    val hasConfidence get() = confW.isNotEmpty()
 
     companion object {
         fun fromAssets(ctx: Context): Config =

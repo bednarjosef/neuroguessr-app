@@ -243,6 +243,8 @@ fun ResultSheet(
     result: LocateResult,
     encMs: Long,
     thumb: ImageBitmap?,
+    confidence: Double?,
+    hitKm: Double,
     onCopy: () -> Unit,
     onPick: () -> Unit,
     onCamera: () -> Unit,
@@ -267,6 +269,23 @@ fun ResultSheet(
                     country.ifEmpty { "Unnamed territory" },
                     color = Ink.Text, style = MaterialTheme.typography.headlineMedium
                 )
+            }
+            if (confidence != null) {
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    FieldLabel("Confidence")
+                    Text(
+                        "${Math.round(confidence * 100)}%",
+                        color = if (confidence >= 0.6) Ink.Text else Ink.TextDim,
+                        fontFamily = Mono, fontSize = 21.sp, fontWeight = FontWeight.Medium
+                    )
+                    Text(
+                        "within ${hitKm.toInt()} km",
+                        color = Ink.TextFaint, style = MaterialTheme.typography.labelSmall
+                    )
+                }
             }
         }
 

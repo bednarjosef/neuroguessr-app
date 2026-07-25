@@ -33,6 +33,17 @@ def main():
         "e7_lam": float(e7["lam"]),
         "score_sd": float(e7["score_sd"]),
     })
+    cpath = os.path.join(a.assets, "params", "confidence.npz")
+    if os.path.exists(cpath):
+        c = np.load(cpath)
+        cfg.update({
+            "conf_w": c["w"].tolist(), "conf_b": float(c["b"]),
+            "conf_mu": c["mu"].tolist(), "conf_sd": c["sd"].tolist(),
+            "conf_hit_km": float(c["hit_km"]),
+        })
+    else:
+        print("  (no confidence.npz — the app will hide the confidence readout)")
+
     os.makedirs(a.android, exist_ok=True)
     with open(os.path.join(a.android, "config.json"), "w") as fh:
         json.dump(cfg, fh, indent=2)

@@ -17,6 +17,8 @@ class LocateResult(
     val msGate: Long,
     val msScore: Long,
     val msRerank: Long,
+    /** Calibrated P(this answer is within [Config.confHitKm] of the truth), 0..1. */
+    val confidence: Double,
 )
 
 /**
@@ -56,7 +58,7 @@ class Retrieval(private val idx: IndexStore, private val cfg: Config) : AutoClos
             total += idx.cellOffsets[cells[i] + 1] - idx.cellOffsets[cells[i]]
         }
         val t1 = System.currentTimeMillis()
-        if (total == 0) return LocateResult(0.0, 0.0, emptyList(), m, 0, t1 - t0, 0, 0)
+        if (total == 0) return LocateResult(0.0, 0.0, emptyList(), m, 0, t1 - t0, 0, 0, 0.0)
 
         // ---- blended scoring over the gated pool -------------------------------------
         val scores = DoubleArray(total)
@@ -115,14 +117,22 @@ class Retrieval(private val idx: IndexStore, private val cfg: Config) : AutoClos
         val topRows = IntArray(k) { rows[top[it]] }
         val sK = DoubleArray(k) { scores[top[it]] }
 
-        val result = rerank(q, topRows, sK, k)
+        val r = rerank(q, topRows, sK, k, total)
         val t3 = System.currentTimeMillis()
-        return LocateResult(result.first.lat, result.first.lon, result.second,
-            m, total, t1 - t0, t2 - t1, t3 - t2)
+        return LocateResult(r.best.lat, r.best.lon, r.ranked,
+            m, total, t1 - t0, t2 - t1, t3 - t2, r.confidence)
     }
 
+    private class Reranked(
+        val best: Candidate,
+        val ranked: List<Candidate>,
+        val confidence: Double,
+    )
+
     /** E7: 16 features per candidate, a logistic score, blended back onto the retrieval score. */
-    private fun rerank(q: Query, rows: IntArray, sK: DoubleArray, k: Int): Pair<Candidate, List<Candidate>> {
+    private fun rerank(
+        q: Query, rows: IntArray, sK: DoubleArray, k: Int, nCandidates: Int,
+    ): Reranked {
         val lat = DoubleArray(k) { idx.latOf(rows[it]) }
         val lon = DoubleArray(k) { idx.lonOf(rows[it]) }
 
@@ -208,13 +218,34 @@ class Retrieval(private val idx: IndexStore, private val cfg: Config) : AutoClos
         val out = ArrayList<Candidate>(k)
         var bestI = 0
         var bestV = Double.NEGATIVE_INFINITY
+        var secondV = Double.NEGATIVE_INFINITY
         for (i in 0 until k) {
             val v = sK[i] / cfg.scoreSd + cfg.e7Lam * e7[i]
             out.add(Candidate(rows[i], lat[i], lon[i], sK[i], v))
-            if (v > bestV) { bestV = v; bestI = i }
+            if (v > bestV) { secondV = bestV; bestV = v; bestI = i }
+            else if (v > secondV) secondV = v
         }
         out.sortByDescending { it.rerank }
-        return Pair(out.first(), out)
+
+        // How much should the user trust this? Fitted offline against held-out ground truth
+        // from signals already on hand, so it costs nothing beyond the arithmetic below.
+        var a10 = 0.0; var a25 = 0.0; var a100 = 0.0
+        for (j in 0 until k) {
+            val d = dkk[bestI][j]
+            if (d <= 10.0) a10 += w[j]
+            if (d <= 25.0) a25 += w[j]
+            if (d <= 100.0) a100 += w[j]
+        }
+        val feats = doubleArrayOf(
+            a10, a25, a100, bb[bestI],
+            if (k > 1) bestV - secondV else 0.0,
+            ent, ln(1.0 + nCandidates)
+        )
+        var z = cfg.confB
+        for (d in feats.indices) z += cfg.confW[d] * ((feats[d] - cfg.confMu[d]) / cfg.confSd[d])
+        val confidence = 1.0 / (1.0 + exp(-z))
+
+        return Reranked(out.first(), out, confidence)
     }
 
     override fun close() { pool.shutdownNow() }
