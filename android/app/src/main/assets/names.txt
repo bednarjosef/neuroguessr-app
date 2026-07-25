@@ -1,0 +1,896 @@
+
+Fiji
+United Republic of Tanzania
+Western Sahara
+Canada
+United States of America
+Kazakhstan
+Uzbekistan
+Papua New Guinea
+Indonesia
+Argentina
+Chile
+Democratic Republic of the Congo
+Somalia
+Kenya
+Sudan
+Chad
+Haiti
+Dominican Republic
+Russia
+The Bahamas
+Falkland Islands
+Norway
+Greenland
+French Southern and Antarctic Lands
+East Timor
+South Africa
+Lesotho
+Mexico
+Uruguay
+Brazil
+Bolivia
+Peru
+Colombia
+Panama
+Costa Rica
+Nicaragua
+Honduras
+El Salvador
+Guatemala
+Belize
+Venezuela
+Guyana
+Suriname
+France
+Ecuador
+Puerto Rico
+Jamaica
+Cuba
+Zimbabwe
+Botswana
+Namibia
+Senegal
+Mali
+Mauritania
+Benin
+Niger
+Nigeria
+Cameroon
+Togo
+Ghana
+Ivory Coast
+Guinea
+Guinea-Bissau
+Liberia
+Sierra Leone
+Burkina Faso
+Central African Republic
+Republic of the Congo
+Gabon
+Equatorial Guinea
+Zambia
+Malawi
+Mozambique
+eSwatini
+Angola
+Burundi
+Israel
+Lebanon
+Madagascar
+Palestine
+Gambia
+Tunisia
+Algeria
+Jordan
+United Arab Emirates
+Qatar
+Kuwait
+Iraq
+Oman
+Vanuatu
+Cambodia
+Thailand
+Laos
+Myanmar
+Vietnam
+North Korea
+South Korea
+Mongolia
+India
+Bangladesh
+Bhutan
+Nepal
+Pakistan
+Afghanistan
+Tajikistan
+Kyrgyzstan
+Turkmenistan
+Iran
+Syria
+Armenia
+Sweden
+Belarus
+Ukraine
+Poland
+Austria
+Hungary
+Moldova
+Romania
+Lithuania
+Latvia
+Estonia
+Germany
+Bulgaria
+Greece
+Turkey
+Albania
+Croatia
+Switzerland
+Luxembourg
+Belgium
+Netherlands
+Portugal
+Spain
+Ireland
+New Caledonia
+Solomon Islands
+New Zealand
+Australia
+Sri Lanka
+China
+Taiwan
+Italy
+Denmark
+United Kingdom
+Iceland
+Azerbaijan
+Georgia
+Philippines
+Malaysia
+Brunei
+Slovenia
+Finland
+Slovakia
+Czechia
+Eritrea
+Japan
+Paraguay
+Yemen
+Saudi Arabia
+Antarctica
+Northern Cyprus
+Cyprus
+Morocco
+Egypt
+Libya
+Ethiopia
+Djibouti
+Somaliland
+Uganda
+Rwanda
+Bosnia and Herzegovina
+North Macedonia
+Republic of Serbia
+Montenegro
+Kosovo
+Trinidad and Tobago
+South Sudan
+countries_110m
+Vatican
+Federated States of Micronesia
+Marshall Islands
+Northern Mariana Islands
+United States Virgin Islands
+Guam
+American Samoa
+South Georgia and the Islands
+British Indian Ocean Territory
+Saint Helena
+Pitcairn Islands
+Anguilla
+Cayman Islands
+Bermuda
+British Virgin Islands
+Turks and Caicos Islands
+Montserrat
+Jersey
+Guernsey
+Isle of Man
+Tonga
+Singapore
+Seychelles
+São Tomé and Principe
+San Marino
+Samoa
+Saint Vincent and the Grenadines
+Saint Lucia
+Saint Kitts and Nevis
+Palau
+Niue
+Cook Islands
+Aruba
+Curaçao
+Nauru
+Monaco
+Mauritius
+Malta
+Maldives
+Liechtenstein
+Kiribati
+Grenada
+Saint Pierre and Miquelon
+Wallis and Futuna
+Saint Martin
+Saint Barthelemy
+French Polynesia
+Aland
+Dominica
+Faroe Islands
+Comoros
+Macao S.A.R
+Hong Kong S.A.R.
+Cabo Verde
+Barbados
+Bahrain
+Indian Ocean Territories
+Heard Island and McDonald Islands
+Norfolk Island
+Ashmore and Cartier Islands
+Antigua and Barbuda
+Andorra
+Siachen Glacier
+Sint Maarten
+Tuvalu
+countries_50m
+coastline_50m
+Mälaren
+Lake Ladoga
+Lake Albert
+Lake Erie
+Lake Chad
+Lake Malawi
+Lake Victoria
+Lake Baikal
+Lake Winnipeg
+Great Slave Lake
+Lake Ontario
+Great Bear Lake
+Lake Saint Clair
+Vänern
+Lake Okeechobee
+Lago de Nicaragua
+Lake Tana
+Lago Titicaca
+Cedar Lake
+Lake Onega
+Great Salt Lake
+Lake Michigan
+Lake Superior
+Lake Huron
+Lago Madre
+Wollaston Lake
+Lake Athabasca
+Lake Mistassini
+IJsselmeer
+Rybinsk Reservoir
+Issyk-Kul
+Lake of the Woods
+Lake Nipigon
+Reindeer Lake
+Oneida Lake
+Iliamna Lake
+Lake Tahoe
+Lake Zaysan
+Lake Winnebago
+Nettilling Lake
+Lake Turkana
+Dubawnt Lake
+Baker Lake
+Kaliningradskiy Zaliv
+Zalev Wislany
+Lake Champlain
+Salton Sea
+Lac la Martre
+Lago Llanquihue
+Hongze Hu
+Khövsgöl Nuur
+Uvs Nuur
+Lac Moeru
+Lake Khanka
+Tonlé Sap
+Qinghai Hu
+Ozero Yarroto Vtoroye
+Lake Tharthar
+Razzaza Lake
+Dead Sea
+Lake Pskov
+Lac Saint-Jean
+Keuka L.
+Seneca Lake
+Cayuga Lake
+Kainji Reservoir
+Lake Urmia
+Cree Lake
+Kasba Lake
+Sarygamysh Köli
+L. Chany
+Alaköl
+Lac-à-l'Eau-Claire
+Lake Nipissing
+Hulun Nuur
+Lake Bangweulu
+Inarijärvi
+Oulujärvi
+Lake Peipus
+Lake Kivu
+Lake Edward
+Tai Hu
+Laguna Mar Chiquita
+Kremenchuk Reservoir
+Rés. de La Grande 3
+Rés. de La Grande 2
+Lago Enriquillo
+Lake Sakami
+Lago Argentino
+Nam Co
+Lake Tuz
+Scott Lake
+Rikkavesi
+Ozero Nerpich'ye
+Ozero Yarroto Pervoye
+Ozero Neyto
+Ozero Yambuto
+Lake Vygozero
+Lake Segozerskoye
+Koitere
+Pielinen
+Pääjärvi
+Lake Topozero
+Bosten Hu
+Lake Il'Men'
+Poyang Hu
+Daguan Hu
+Long Hu
+Liangzi Hu
+Siling Co
+Har Us Nuur
+Lake Taupo
+Lake Geneva
+Lough Neagh
+Vättern
+Lake Van
+Yellowstone Lake
+Teshekpuk Lake
+Flathead Lake
+Lake Mead
+Lake Claire
+Smallwood Reservoir
+Lake Taymyr
+Lago de Izabal
+Ozero Mogotoyevo
+Ayakkum Hu
+Storsjön
+Lake St. Joseph
+Lake Rukwa
+Nam Ngum Reservoir
+Réservoir Gouin
+Gaoyou Hu
+Ozero Pyasino
+Hjälmaren
+Lake Bienville
+Lake Beloye
+Van Blommestein Meer
+Lake Manyara
+Lake Äbaya
+Akkajaure
+Lake Balaton
+Canandaigua Lake
+Owasco Lake
+Skaneateles Lake
+Bear Lake
+Utah Lake
+Leech Lake
+Lac des Mille Lacs
+Réservoir Baskatong
+Lago Ranco
+Trout Lake
+Lago Viedma
+Lac Tumba
+Po Hu
+Buyr Nuur
+Ngangla Ringeo
+Tangra Yumco
+Ozero Kulundinskoye
+Siletitengiz Köli
+Ubinskoye Lake
+Umbozero Lake
+Lake Kovdozero
+Lake Tekapo
+Ozero Bustakh
+Yamzho Yumco
+Ozero Tenis
+Ozero Chërnoye
+Ozero Bol'šoe Morskoe
+Ozero Chukochye
+Shijiu Hu
+Hong Hu
+Võrtsjärv
+Chao Hu
+Lake Rossignol
+Grand Lake
+Goose Lake
+Pyramid Lake
+Lake Sevan
+Weishan Hu
+Huangtang Hu
+Millerton Lake
+Bluenose Lake
+Réservoir Pipmuacan
+Colville Lake
+Hottah Lake
+Big Trout Lake
+Island Lake
+Lake Naococane
+Lac la Ronge
+Mille Lacs Lake
+Lake Winnipesaukee
+Lake Simcoe
+Gods Lake
+Hoh Xil Hu
+Lake Hammar
+Malheur Lake
+Tikchik Lakes
+Khyargas Nuur
+Lake Assal
+Rainy Lake
+Williston Lake
+Split Lake
+Ft. Peck Lake
+Lake Sakakawea
+Teslin Lake
+Lower Arrow Lake
+Lake Pend Oreille
+Lake Chelan
+Black Lake
+Lake Louise
+Lower Red Lake
+Upper Red Lake
+Yathkyed Lake
+Amadjuak Lake
+Amistad Reservoir
+Cabonga Reservoir
+Lago de Chapala
+Lago de Managua
+Itaipú Reservoir
+Lago Gatun
+Lake Kariba
+Lake Kyoga
+Ozero Kubenskoye
+Bodensee
+Sea of Galilee
+Lake Argyle
+Ngoring Hu
+Gyaring Hu
+Toktogul Res.
+Langa Co
+Mapam Yumco
+Lake Volta
+South Aral Sea
+North Aral Sea
+Barsakelmes Lake
+Lake Balkhash
+Lake Tanganyika
+Lagoa Mirim
+Lake Manitoba
+Lake Winnipegosis
+Réservoir Manicouagan
+Syvash
+Lake Saimaa
+Churchill Lake
+Lago Buenos Aires
+Päijänne
+Lake Srednye Kuyto
+Kakhovka Reservoir
+Samara Reservoir
+Lake Powell
+Southern Indian Lake
+Represa de Sobradinho
+Danau Toba
+Lake Pukaki
+Lake Ohau
+Lake Abitibi
+Fort Peck Lake
+Lake Oahe
+Lake Nasser
+Pyhäjärvi
+Bratsk Reservoir
+Ozero Khantayskoye
+Ozero Keta
+Ozero Lama
+Uddjaure
+Storavan
+Lake Habbaniyah
+Lake Skadar
+Aylmer Lake
+Clinton-Colden Lake
+Lake Francis Case
+Falcon Lake
+Lac Île-à-la-Crosse
+Wholdaia Lake
+Tehek Lake
+Réservoir de Caniapiscau
+Kentucky Lake
+J. Strom Thurmond Lake
+Kinbasket Lake
+Lake George
+Lake Havasu
+Shasta Lake
+Point Lake
+Upper Klamath Lake
+Harney Lake
+Chiputneticook Lakes
+Represa de Tucuruí
+Represa Três Marias
+Lago Colhué Huapí
+Shardara Bögeni
+Vilyuy Reservoir
+Ozero Krasnoye
+Biwa Ko
+Aishihik Lake
+Lake Clark
+Wheeler Lake
+Üüreg Nuur
+Banggong Co
+Tengiz Köli
+Qusmuryn Köli
+Femunden
+Lake Disappointment
+Lake Mackay
+Lake Gairdner
+Lake Torrens
+Lake Barlee
+Lake Frome
+Lake Eyre South
+Lake Eyre North
+lakes_50m
+Kama
+Abay
+Al Furat
+Alabama
+Albany
+Albert Nile
+Amur
+Angara
+Atbara
+Athabasca
+Back
+Biya
+Chattahoochee
+Churchill
+Colorado
+Columbia
+Coppermine
+Dalälven
+Dniester
+Dnipro
+Don
+El Bahr el Azraq
+Ertis
+Firat
+Gan
+Grande
+Han
+Huang
+Indus
+Kemijoki
+Klamath
+Krishna
+La Grande Rivière
+Mackenzie
+Madison
+Mahäna Nadï
+Mississippi
+Missouri
+Mouhoun
+Murray
+Nakanbé
+Naryn
+Nelson
+Neva
+Nile
+Ob
+Orange
+Ord
+Ottawa
+Panama Canal
+Paranaíba
+Paraná
+Peace
+Pit
+R. des Outaouais
+Rainy
+Rhein
+Rhône
+Rio Grande
+Rupert
+Río Grande de Santiago
+Sacramento
+San Joaquin
+San Juan
+Saskatchewan
+Sassandra
+Savannah
+Semliki
+Shire
+Shishhid Gol
+Snake
+South Saskatchewan
+Suez Canal
+Sukhona
+Sutlej
+Svir’
+Syr Darya
+São  Francisco
+Tajo
+Tennessee
+Teslin
+Thelon
+Tocantins
+Tugaloo
+Ural
+Vaal
+Verkhniy Yenisey
+Victoria Nile
+Vilyuy
+Vistula
+Volga
+Volta
+Vorma
+Vuoksi
+Waikato
+Winnipeg
+Yuan
+Zambezi
+Aldan
+Allegheny
+Amazonas
+Amu  Darya
+Anadyr’
+Araguaia
+Argun’
+Arkansas
+Ayeyarwady
+Bafing
+Bahr el  Zeraf
+Bahr el Jebel
+Bamingui
+Barito
+Barwon
+Benue
+Borcea
+Braco Menor
+Brahmaputra
+Branco
+Bratul Chillia
+Bratul Sfintu Gheorghe
+Bratul Sulina
+Brazos
+Busira
+Bykovskaya Protoka
+Bénoué
+Bío-Bío
+Caquetá
+Chang Jiang
+Chari
+Chattooga
+Chenab
+Chixoy
+Chubut
+Chulyshman
+Coco
+Congo
+Copper
+Cubango
+Culuene
+Dadu
+Daly
+Damietta Branch
+Danube
+Darling
+Daugava
+Desaguadero
+Dicle
+Digul
+Dihang
+Dnepre
+Donau
+Double Mountain Fork Brazos
+Drava
+Duero
+Ebro
+El Bahr el Abyad
+Elbe
+Ertix
+Euphrates
+Ferenc Csatorna
+Finlay
+Fitzroy
+Fraser
+Ganges
+Ariège
+Genala
+Gharraf Canal
+Gila
+Glomma
+Godävari
+Great Pee Dee
+Guaporé
+Göta älv
+Hailar
+Heilong Jiang
+Helmand
+Holston
+Hong
+Hongshui
+Hudson
+Ideriyn
+Indaiá
+Indigirka
+Indragi
+Irrawaddy Delta
+Irtysh
+Ishikari
+Ismailiya Canal
+Japurá
+Jequitinhonha
+Jinsha
+Jubba
+Juruena
+Kadéï
+Kafue
+Kagera
+Kamchatka
+Kapuas
+Kasai
+Katherine
+Kayan
+Kem
+Khatanga
+Kheta
+Kibali
+Kokemäenjoki
+Kolyma
+Konqi
+Koukourou
+Koyukuk
+Kuskokwim
+Kwango
+Kyzyl-Khem
+Lancang
+Lek
+Lena
+Liao
+Liard
+Limpopo
+Lom
+Lower Tunguska
+Lualaba
+Madeira
+Madre de Dios
+Magdalena
+Malyy Yenisey
+Mamberamo
+Mamoré
+Mananantanana
+Mangoky
+Maquan
+Marañón
+Mekong
+Mendoza
+Meta
+Min
+Mitchell
+N. Fork Kuskokwim
+Nanpan
+Narmada
+Nederrijn
+Negro
+Neuquén
+Niagara
+Nmai
+North Saskatchewan
+Nu
+Oder
+Ohio
+Okavango
+Olenekskaya Protoka
+Olenëk
+Omo
+Orinoco
+Ouham
+Pamir
+Panj
+Paraiba
+Pechora
+Pend Oreille
+Pilcomayo
+Po
+Porcupine
+Potomac
+Purari
+Purús
+Pánuco
+Quan
+Rhin
+Rhine
+Rosetta Branch
+Ruki
+Ruvuma
+S. Branch Potomac
+Saint John
+Salado
+Salween
+Sanaga
+Sangha
+Santa Cruz
+Seine
+Selenge (Selenga)
+Setit
+Shatt al Arab
+Shiquan
+Skeena
+Slave
+Songhua
+Soroksari Duna
+Sprague
+St. Clair
+St. Lawrence
+Stikine
+Susitna
+Severnaya Dvina
+Sénégal
+Tanana
+Tapajós
+Tarim
+Taritatu
+Taz
+Tejo
+Thames
+Tigris
+Tisa
+Tisza
+Tobol
+Tom’
+Tongtian
+Trofimovskaya Protoka
+Tshuapa
+Tumatskaya Protoka
+Tuotuo
+Ubangi
+Ucayali
+Uele
+Usumacinta
+Verde
+Vychegda
+Waal
+Wabash
+Waitaki
+Weir
+Willamette
+Xar Moron
+Xi
+Xiliao
+Xingu
+Xun
+Yadkin
+Yamuna
+Yangtze
+Yarkant
+Yarlung
+Yenisey
+Yukon
+Za
+Garonne
+Loire
+rivers_50m
