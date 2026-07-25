@@ -17,3 +17,4 @@ screenshots/
 testdata/
 __pycache__/
 *.pyc
+dist/
