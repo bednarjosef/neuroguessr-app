@@ -67,7 +67,7 @@ android/                  Kotlin + Compose app
   Encoder.kt              ONNX Runtime session (XNNPACK, 4 threads)
   Preprocess.kt           Pillow-compatible bicubic resize — see below
   Retrieval.kt            gate, blend, CSLS, top-K, the reranker
-  MapCanvas.kt            offline vector map, gestures, labels
+  MapCanvas.kt            offline vector map (Web Mercator), gestures, labels
   WorldMap.kt             Natural Earth binary reader
 export/                   asset pipeline (run against the research repo)
   build_index_assets.py   descriptors -> int8, cell-sorted, mmap-friendly
@@ -109,5 +109,5 @@ live there) — `export/build_index_assets.py` then `export/export_fp16.py`.
 
 See [NOTICE.md](NOTICE.md). In short: the DINOv3 weights are under Meta's DINOv3 licence, which
 permits commercial use and redistribution provided the licence travels with any derivative;
-IBM Plex is SIL OFL; Natural Earth is public domain. The place index is derived from Street
+Inter is SIL OFL; Natural Earth is public domain. The place index is derived from Street
 View imagery and is **not** distributed here.

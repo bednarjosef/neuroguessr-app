@@ -42,6 +42,28 @@ fun formatKm(km: Double): String = when {
     else -> String.format(java.util.Locale.ROOT, "%,.0f km", km)
 }
 
+/**
+ * Web Mercator, in "world units" chosen so the map is a 360x360 square.
+ *
+ * Equirectangular gives a 2:1 world, which can never fill a portrait viewport without the
+ * camera sliding off the poles — that is what left dead space above and below the map. In
+ * Mercator the world is square, latitude is cut at +-85.051 deg, and northing lands in the
+ * same +-180 range as longitude, so one pixels-per-unit scale drives both axes and the
+ * pre-built geometry still transforms with a plain matrix.
+ */
+const val MERC_LAT_MAX = 85.05112878
+
+fun mercY(latDeg: Double): Double {
+    val lat = latDeg.coerceIn(-MERC_LAT_MAX, MERC_LAT_MAX) * (Math.PI / 180.0)
+    return ln(kotlin.math.tan(Math.PI / 4.0 + lat / 2.0)) * (180.0 / Math.PI)
+}
+
+fun mercLat(y: Double): Double =
+    (2.0 * kotlin.math.atan(exp(y * (Math.PI / 180.0))) - Math.PI / 2.0) * (180.0 / Math.PI)
+
+fun mercYf(latDeg: Float): Float = mercY(latDeg.toDouble()).toFloat()
+fun mercLatf(y: Float): Float = mercLat(y.toDouble()).toFloat()
+
 fun formatLatLon(lat: Double, lon: Double): String {
     val ns = if (lat >= 0) "N" else "S"
     val ew = if (lon >= 0) "E" else "W"

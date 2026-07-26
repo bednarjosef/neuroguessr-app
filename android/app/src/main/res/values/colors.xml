@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Matches Ink.Base, so the launch window is already the app's colour before Compose
+         has drawn a single frame — no white flash on cold start. -->
+    <color name="ink_base">#FF080B10</color>
+    <color name="ic_launcher_background">#FF0E1826</color>
+</resources>

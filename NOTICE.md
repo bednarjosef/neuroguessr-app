@@ -21,11 +21,12 @@ Relevant terms, verified 2026-07-25:
 Because it is a custom licence rather than a standard open-source one, get your own legal
 reading before shipping commercially.
 
-## IBM Plex Sans / IBM Plex Mono
+## Inter
 
-Copyright © 2017 IBM Corp., with Reserved Font Name "Plex". Licensed under the
-**SIL Open Font License 1.1** — freely bundleable in an application, including commercially.
-Bundled in `android/app/src/main/res/font/`.
+Copyright © 2016 The Inter Project Authors (https://github.com/rsms/inter), with Reserved Font
+Name "Inter". Licensed under the **SIL Open Font License 1.1** — freely bundleable in an
+application, including commercially. Bundled in `android/app/src/main/res/font/` (Inter
+Regular/Medium/SemiBold and Inter Display Medium/SemiBold).
 
 ## Natural Earth
 

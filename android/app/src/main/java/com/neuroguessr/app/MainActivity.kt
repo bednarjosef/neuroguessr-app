@@ -16,19 +16,23 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
@@ -184,7 +188,7 @@ class MainActivity : ComponentActivity() {
                 reveal.snapTo(0f)
                 // pull back to a wide view while it thinks, so the reveal has somewhere to
                 // fly in from and the answer arrives as a movement rather than a jump cut
-                launch { camera.zoomLog.animateTo(0.15f, tween(1100, easing = FastOutSlowInEasing)) }
+                camera.launchAnimation(this) { zoomTo(camera.minZoomLog + 0.1f, 1100) }
                 val out = withContext(Dispatchers.Default) {
                     e.locate(bm) { s -> stage = s }
                 }
@@ -194,8 +198,8 @@ class MainActivity : ComponentActivity() {
                 stage = null
                 result = r
                 haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                launch {
-                    camera.flyTo(r.lon.toFloat(), r.lat.toFloat(), spreadZoomLog(r), 950)
+                camera.launchAnimation(scope) {
+                    flyTo(r.lon.toFloat(), r.lat.toFloat(), spreadZoomLog(r, camera), 950)
                 }
                 reveal.animateTo(1f, spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessLow))
             }
@@ -241,22 +245,30 @@ class MainActivity : ComponentActivity() {
 
                 // just enough scrim to keep the wordmark legible over bright terrain
                 Box(
-                    Modifier.fillMaxWidth().height(120.dp).background(
-                        Brush.verticalGradient(listOf(Ink.Base.copy(alpha = 0.85f), Color.Transparent))
+                    Modifier.fillMaxWidth().height(140.dp).background(
+                        Brush.verticalGradient(listOf(Ink.Base.copy(alpha = 0.72f), Color.Transparent))
                     )
                 )
 
+                // the wordmark rides on the map as a floating chip rather than in a bar, so
+                // nothing steals a strip of the terrain that the map could be using
                 Row(
                     Modifier.align(Alignment.TopStart).statusBarsPadding()
-                        .padding(start = 22.dp, top = 16.dp, end = 22.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(start = 16.dp, top = 12.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(Ink.Panel.copy(alpha = 0.86f))
+                        .border(1.dp, Ink.Hairline, RoundedCornerShape(50))
+                        .padding(start = 12.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    Icon(Glyph.PIN, Ink.Signal, 17)
                     Text(
-                        "NEUROGUESSR", color = Ink.Text, fontSize = 13.sp,
-                        fontWeight = FontWeight.Medium, letterSpacing = 3.6.sp
+                        "Neuroguessr", color = Ink.Text,
+                        style = MaterialTheme.typography.titleMedium
                     )
                     if (eng == null && loadError == null) {
-                        Text("  ·  loading", color = Ink.TextFaint, fontSize = 12.sp)
+                        Box(Modifier.size(6.dp).clip(CircleShape).background(Ink.Accent))
                     }
                 }
 
@@ -264,26 +276,35 @@ class MainActivity : ComponentActivity() {
                     Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // the scale belongs to the map, so it rides directly above the sheet edge
-                    run {
-                        val density = androidx.compose.ui.platform.LocalDensity.current
-                        val widthPx = with(density) {
-                            androidx.compose.ui.platform.LocalConfiguration.current
-                                .screenWidthDp.dp.toPx()
-                        }
-                        val ppd = camera.pxPerDeg(widthPx)
+                    // map furniture rides directly above the sheet edge, whatever its height
+                    Row(
+                        Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        val ppu = camera.pxPerUnit(camera.viewW)
                         val kmPerPx = 111.32 *
-                                kotlin.math.cos(Math.toRadians(camera.lat.value.toDouble())) / ppd
-                        ScaleBar(
-                            kmPerPx,
-                            Modifier.align(Alignment.Start).padding(start = 22.dp, bottom = 12.dp)
-                        )
+                                kotlin.math.cos(Math.toRadians(camera.centerLat.toDouble())) / ppu
+                        ScaleBar(kmPerPx, Modifier.padding(bottom = 6.dp))
+                        Spacer(Modifier.weight(1f))
+                        if (result != null) {
+                            MapButton(Glyph.TARGET, Ink.Signal) {
+                                result?.let { r ->
+                                    camera.launchAnimation(scope) {
+                                        flyTo(
+                                            r.lon.toFloat(), r.lat.toFloat(),
+                                            spreadZoomLog(r, camera), 700
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                     loadError?.let {
                         Sheet(true) {
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                FieldLabel("Cannot start")
-                                Text(it, color = Ink.TextDim, fontSize = 13.sp, fontFamily = Mono)
+                                Text("Cannot start", color = Ink.Text,
+                                    style = MaterialTheme.typography.titleLarge)
+                                Text(it, style = Num.copy(fontSize = 13.sp, color = Ink.TextDim))
                             }
                         }
                     }
@@ -341,7 +362,7 @@ class MainActivity : ComponentActivity() {
 private const val MIN_SPAN_DEG = 3.6      // ~300 km of screen width; the closest we ever go
 private const val MAX_SPAN_DEG = 120.0    // continental, for a search that agreed on nothing
 
-private fun spreadZoomLog(r: LocateResult): Float {
+private fun spreadZoomLog(r: LocateResult, camera: MapCamera): Float {
     val top = r.candidates.take(12)
     var span = 0.0
     for (c in top) {
@@ -350,5 +371,8 @@ private fun spreadZoomLog(r: LocateResult): Float {
                 kotlin.math.cos(Math.toRadians(r.lat)))
     }
     val degrees = (span * 4).coerceIn(MIN_SPAN_DEG, MAX_SPAN_DEG)
-    return log2(360.0 / degrees).toFloat()
+    // Mercator stretches everything away from the equator, so a Finnish result needs less
+    // scale than a Kenyan one to frame the same ground distance
+    val stretch = 1.0 / kotlin.math.cos(Math.toRadians(r.lat)).coerceAtLeast(0.15)
+    return camera.clampZoom(log2(360.0 / (degrees * stretch)).toFloat())
 }

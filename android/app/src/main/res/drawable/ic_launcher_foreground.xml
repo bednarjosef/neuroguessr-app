@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The mark: a pin with the hole punched through it (evenOdd), sized to sit inside the
+     adaptive icon's 72dp safe zone so no launcher shape can clip it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FF6A45"
+        android:fillType="evenOdd"
+        android:pathData="M54,26 C43.5,26 35,34.5 35,45 C35,59.4 54,82 54,82 C54,82 73,59.4 73,45 C73,34.5 64.5,26 54,26 Z M54,52.5 C49.86,52.5 46.5,49.14 46.5,45 C46.5,40.86 49.86,37.5 54,37.5 C58.14,37.5 61.5,40.86 61.5,45 C61.5,49.14 58.14,52.5 54,52.5 Z" />
+</vector>

@@ -4,10 +4,7 @@ import android.content.Context
 import android.graphics.Path
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlin.math.abs
 import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -135,8 +132,10 @@ class WorldMap(private val buf: ByteBuffer) {
     fun latAt(p: Int) = buf.getInt(coordOff + p * 8 + 4) / coordScale
 
     /**
-     * Build android Paths in "world units": x = lon, y = -lat, so a caller can scale/translate
-     * without rebuilding geometry. Cached per layer because this walks every vertex.
+     * Build android Paths in world units: x = lon, y = -mercY(lat), so a caller can scale and
+     * translate without rebuilding geometry. The Mercator warp has to be baked in here — it is
+     * non-linear, and a Canvas Matrix can only do the linear part. Cached per layer because
+     * this walks every vertex.
      */
     /** Paths in world units plus a flat bbox table, so a frame can cull before it draws. */
     class Geom(val paths: List<Path>, val bbox: FloatArray)
@@ -154,8 +153,10 @@ class WorldMap(private val buf: ByteBuffer) {
                 val fp = ringFirstPoint(r)
                 val n = ringPointCount(r)
                 if (n < 2) continue
-                p.moveTo(lonAt(fp).toFloat(), (-latAt(fp)).toFloat())
-                for (k in 1 until n) p.lineTo(lonAt(fp + k).toFloat(), (-latAt(fp + k)).toFloat())
+                p.moveTo(lonAt(fp).toFloat(), (-mercY(latAt(fp))).toFloat())
+                for (k in 1 until n) {
+                    p.lineTo(lonAt(fp + k).toFloat(), (-mercY(latAt(fp + k))).toFloat())
+                }
                 if (l.geomType == 0) p.close()
             }
             out.add(p)
@@ -164,8 +165,6 @@ class WorldMap(private val buf: ByteBuffer) {
         }
         Geom(out, bb)
     }
-
-    fun pathsFor(layerName: String): List<Path> = geomFor(layerName).paths
 
     // ---- country lookup ---------------------------------------------------------------
 
@@ -246,17 +245,5 @@ class WorldMap(private val buf: ByteBuffer) {
             val bytes = ctx.assets.open(name).use { it.readBytes() }
             return WorldMap(ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN))
         }
-    }
-}
-
-/** Equirectangular viewport: world units are (lon, -lat). */
-class MapView2D(var centerLon: Double = 0.0, var centerLat: Double = 20.0, var zoom: Double = 1.0) {
-    fun clamp(widthPx: Float, heightPx: Float) {
-        zoom = zoom.coerceIn(0.6, 400.0)
-        val spanLon = 360.0 / zoom
-        val spanLat = spanLon * heightPx / max(1f, widthPx)
-        centerLat = centerLat.coerceIn(-90.0 + min(90.0, spanLat / 2), 90.0 - min(90.0, spanLat / 2))
-        centerLon = ((centerLon + 180.0).mod(360.0)) - 180.0
-        if (abs(spanLon) >= 360.0) centerLon = 0.0
     }
 }
