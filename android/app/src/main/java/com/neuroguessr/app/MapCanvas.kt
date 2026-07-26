@@ -5,10 +5,8 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.animateDecay
-import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.exponentialDecay
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.awaitEachGesture
@@ -180,6 +178,9 @@ private fun wrapLon(v: Float): Float {
 }
 
 const val ZOOM_MAX = 11.0f
+
+/** How many times the halo rings before the marker layer goes quiet. */
+private const val PULSES = 3f
 
 /**
  * Basemap and markers are drawn on SEPARATE canvases on purpose.
@@ -362,13 +363,21 @@ private fun MarkerLayer(
     pinReveal: Float,
     modifier: Modifier,
 ) {
-    // the pulse only exists while there is something to pulse around
-    val halo = if (pin != null) {
-        val t = rememberInfiniteTransition(label = "pulse")
-        t.animateFloat(
-            0f, 1f, infiniteRepeatable(tween(2800, easing = LinearEasing)), label = "halo"
-        ).value
-    } else 0f
+    /*
+     * The halo rings three times and then stops.
+     *
+     * As an infinite animation it kept the marker layer redrawing at the full refresh rate for
+     * as long as a result was on screen — 436 frames over seven idle seconds on a 120 Hz
+     * phone, for a ring nobody was still looking at. Three rings draw the eye to the answer;
+     * after that the map is allowed to be still.
+     */
+    val ring = remember { Animatable(0f) }
+    LaunchedEffect(pin) {
+        ring.snapTo(0f)
+        if (pin != null) ring.animateTo(PULSES, tween((PULSES * 2600).toInt(), easing = LinearEasing))
+    }
+    val halo = ring.value - kotlin.math.floor(ring.value)
+    val haloFade = (1f - ring.value / PULSES).coerceIn(0f, 1f)
 
     Canvas(modifier) {
         if (pin == null) return@Canvas
@@ -385,7 +394,8 @@ private fun MarkerLayer(
                 drawCircle(Ink.Signal.copy(alpha = 0.55f * pinReveal), radius = 2.0f, center = p)
             }
         }
-        project(pin.first, pin.second, cLon, cMy, ppu, w, h)?.let { drawPin(it, pinReveal, halo) }
+        project(pin.first, pin.second, cLon, cMy, ppu, w, h)
+            ?.let { drawPin(it, pinReveal, halo, haloFade) }
     }
 }
 
@@ -408,7 +418,7 @@ private fun project(
  * under its own marker — and a dark rim plus a ground shadow keep it readable over both the
  * pale land fill and the near-black ocean.
  */
-private fun DrawScope.drawPin(p: Offset, reveal: Float, halo: Float) {
+private fun DrawScope.drawPin(p: Offset, reveal: Float, halo: Float, haloFade: Float) {
     if (reveal <= 0.01f) return
     val s = reveal
     val drop = (1f - reveal) * 46f
@@ -416,11 +426,13 @@ private fun DrawScope.drawPin(p: Offset, reveal: Float, halo: Float) {
 
     // the coordinate itself stays marked even while the pin is still falling
     drawCircle(Ink.Signal.copy(alpha = 0.85f * s), radius = 2.6f, center = p)
-    val r = 14f + 46f * halo
-    drawCircle(
-        Ink.Signal.copy(alpha = 0.28f * (1f - halo) * s), radius = r, center = p,
-        style = Stroke(width = 2f)
-    )
+    if (haloFade > 0.01f) {
+        val r = 14f + 46f * halo
+        drawCircle(
+            Ink.Signal.copy(alpha = 0.30f * (1f - halo) * s * haloFade), radius = r, center = p,
+            style = Stroke(width = 2f)
+        )
+    }
 
     val head = Offset(tip.x, tip.y - 30f * s)
     val rad = 11.5f * s
