@@ -85,8 +85,14 @@ the index was built with — a retrieval error, not a cosmetic one.
 
 ## Running it
 
-The APK is on the [releases page](../../releases). It needs the index and encoder pushed
-separately, because together they are 2.2 GB:
+**To just install it:** everything lives at
+<https://huggingface.co/josefbednar/neuroguessr-app> — install the APK from there, open the
+app, and it downloads its own 2.2 GB of assets (resumable, SHA-256-verified against the
+manifest baked into the APK). Publish a new build with `export/publish_assets.py` +
+`export/publish_apk.py`; release signing reads `android/keystore.properties` (uncommitted —
+back up the keystore, a lost one strands every installed phone on the old signature).
+
+**For development,** pushing assets over USB is much faster than re-downloading:
 
 ```bash
 export/provision_device.sh [device-serial]
@@ -94,7 +100,8 @@ export/provision_device.sh [device-serial]
 
 Install order matters: a **first** install wipes the app's external files directory, so the
 assets must go on afterwards. Re-installs over an existing app leave them alone. The script
-handles this, checks free space, and is safe to re-run.
+handles this, checks free space, and is safe to re-run. The in-app downloader accepts
+adb-pushed files as-is (it only checks sizes), so the two paths mix freely.
 
 Building from source needs the Android SDK and a JDK; no Android Studio required:
 

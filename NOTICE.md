@@ -45,12 +45,13 @@ Apache License 2.0.
 
 ---
 
-## The place index — not distributed
+## The place index
 
 The retrieval index holds 1024-dimensional descriptors and coordinates derived from Street View
 imagery. It contains no images, but it is a derivative database, and Google's terms speak to
-derivative databases. It is therefore **not** included in this repository or in any release
-attachment, and the app expects it to be provisioned separately by whoever builds it.
+derivative databases. It is not included in this repository; the in-app downloader fetches it
+from a personal Hugging Face repo (`josefbednar/neuroguessr-app`) used to share the app with a
+small circle of testers.
 
-Anyone planning to distribute this app publicly should resolve that question first — it is a
+Anyone planning to distribute this app more widely should resolve that question first — it is a
 licensing matter, not a technical one.

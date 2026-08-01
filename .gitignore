@@ -11,6 +11,11 @@ android/local.properties
 assets_build/
 assets_build_4view/
 
+# Release signing: the keystore and its passwords never enter history. Back them up —
+# a lost keystore means friends' phones refuse the next update until they reinstall.
+android/neuroguessr-release.keystore
+android/keystore.properties
+
 # Working files
 logs/
 screenshots/

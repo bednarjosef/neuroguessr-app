@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "tag": "c4",
+ "base_url": "https://huggingface.co/josefbednar/neuroguessr-app/resolve/main/assets/",
+ "total_bytes": 2198142218,
+ "files": [
+  {
+   "path": "index/cell_id.u16",
+   "bytes": 599036,
+   "sha256": "3782c050c82faff08da3cf3d1e67878ff4befb5ae8827e9fdcd1b4317a8ddbf0"
+  },
+  {
+   "path": "index/cell_offsets.u32",
+   "bytes": 20004,
+   "sha256": "69fe1f6ce5b3e6a74b1034c3723835ade8a46a35d652330ec5a5abcdd2d98255"
+  },
+  {
+   "path": "index/cls.i8",
+   "bytes": 306706432,
+   "sha256": "1a96c4e34739561518d8a6d9f9a5a464a7364a9b8b3c4aa28f8b8b61a38b1c50"
+  },
+  {
+   "path": "index/cls.scale.f32",
+   "bytes": 1198072,
+   "sha256": "50a51dea3f2edec1000d73c372608199d7aca3dce6262d93e26a1e6f764e0b61"
+  },
+  {
+   "path": "index/cls_wh.i8",
+   "bytes": 306706432,
+   "sha256": "b3a7b4a3a2805830b03cabb5084c1e05a04877a75bd03b8912c30c635ebfa440"
+  },
+  {
+   "path": "index/cls_wh.scale.f32",
+   "bytes": 1198072,
+   "sha256": "3ced6684741a2aede1693bb00f50f5e4a84a644affc92987cf5d8fd168d2df54"
+  },
+  {
+   "path": "index/csls_r.f32",
+   "bytes": 3594216,
+   "sha256": "8d5c951fff06d9b72c18a1c5c8d2d689a3a05d914b76936c6c7c52ec8ecd97fe"
+  },
+  {
+   "path": "index/geo10c.i8",
+   "bytes": 306706432,
+   "sha256": "ac6651c490a5a2b7f895c3bb5c057a261e15ffe19b0c7c90d6161ac54a3e734d"
+  },
+  {
+   "path": "index/geo10c.scale.f32",
+   "bytes": 1198072,
+   "sha256": "70e69adee70f7ee450375a1472bd70916972128b9d2b9c229074d555a26d9e73"
+  },
+  {
+   "path": "index/geo25c.i8",
+   "bytes": 306706432,
+   "sha256": "7caf3371093a1086b5b61e347e1cd4aa0e04a6251f1d83acd2b20dcf71ef91b8"
+  },
+  {
+   "path": "index/geo25c.scale.f32",
+   "bytes": 1198072,
+   "sha256": "9416bc55d865818063d43865105606a9c5d1be4d947ee61aba7f3fefe8bc4993"
+  },
+  {
+   "path": "index/geo5c.i8",
+   "bytes": 306706432,
+   "sha256": "d17abf9c8b0394685ee378af1adfdd161ca9486f0df6c4635728198f51bec07e"
+  },
+  {
+   "path": "index/geo5c.scale.f32",
+   "bytes": 1198072,
+   "sha256": "b77a36dcae37f2bb165a0dc7bac3135aad27194f3afe16848501dd35ca699f4d"
+  },
+  {
+   "path": "index/latlon.f32",
+   "bytes": 2396144,
+   "sha256": "44e18b353a8d622d95dd78ff5ad1e07f82d3fc4daee23852abe3100c0247d768"
+  },
+  {
+   "path": "model/encoder_fp16.onnx",
+   "bytes": 652010298,
+   "sha256": "7cebb12485347b41eb849abe1a18badd1c32e1121cc7cdd62184417c688f61ab"
+  }
+ ]
+}

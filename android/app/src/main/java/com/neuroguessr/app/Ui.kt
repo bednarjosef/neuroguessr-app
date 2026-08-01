@@ -68,7 +68,7 @@ fun Caption(text: String, color: Color = Ink.TextDim, modifier: Modifier = Modif
  * each, and drawing them keeps every glyph on the same 1.7dp stem as the rest of the interface
  * instead of importing a multi-megabyte icon font for four shapes.
  */
-enum class Glyph { PHOTO, CAMERA, COPY, TARGET, PIN }
+enum class Glyph { PHOTO, CAMERA, COPY, TARGET, PIN, DOWNLOAD }
 
 @Composable
 fun Icon(glyph: Glyph, tint: Color, size: Int = 20, modifier: Modifier = Modifier) {
@@ -133,6 +133,27 @@ private fun DrawScope.drawGlyph(glyph: Glyph, tint: Color) {
                     strokeWidth = sw, cap = StrokeCap.Round
                 )
             }
+        }
+        Glyph.DOWNLOAD -> {
+            drawLine(
+                tint, Offset(s * 0.5f, s * 0.10f), Offset(s * 0.5f, s * 0.56f),
+                strokeWidth = sw, cap = StrokeCap.Round
+            )
+            drawPath(
+                Path().apply {
+                    moveTo(s * 0.30f, s * 0.38f); lineTo(s * 0.5f, s * 0.58f)
+                    lineTo(s * 0.70f, s * 0.38f)
+                }, tint, style = st
+            )
+            drawPath(
+                Path().apply {
+                    moveTo(s * 0.12f, s * 0.66f); lineTo(s * 0.12f, s * 0.76f)
+                    cubicTo(s * 0.12f, s * 0.85f, s * 0.17f, s * 0.90f, s * 0.26f, s * 0.90f)
+                    lineTo(s * 0.74f, s * 0.90f)
+                    cubicTo(s * 0.83f, s * 0.90f, s * 0.88f, s * 0.85f, s * 0.88f, s * 0.76f)
+                    lineTo(s * 0.88f, s * 0.66f)
+                }, tint, style = st
+            )
         }
         Glyph.PIN -> {
             drawPath(
@@ -479,6 +500,90 @@ fun StartSheet(ready: Boolean, onPick: () -> Unit, onCamera: () -> Unit) {
             PrimaryButton("Choose photo", Glyph.PHOTO, ready, Modifier.weight(1f)) { onPick() }
             SecondaryButton("Camera", Glyph.CAMERA, ready, Modifier.width(132.dp)) { onCamera() }
         }
+    }
+}
+
+// ---- the one-time download -------------------------------------------------------------
+
+private fun gb(b: Long) = String.format(java.util.Locale.ROOT, "%.2f", b / 1e9)
+
+/** What a fresh install shows instead of the start sheet: the app asking for its brain. */
+@Composable
+fun DownloadOfferSheet(totalBytes: Long, onStart: () -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text(
+                "One download, then fully offline",
+                color = Ink.Text, style = MaterialTheme.typography.headlineMedium
+            )
+            Caption(
+                "Everything runs on this phone — the neural encoder and an index of 300,000 " +
+                        "places. They are a ${gb(totalBytes)} GB download, needed once. " +
+                        "Wi-Fi recommended."
+            )
+        }
+        PrimaryButton(
+            "Download ${gb(totalBytes)} GB", Glyph.DOWNLOAD, true, Modifier.fillMaxWidth()
+        ) { onStart() }
+    }
+}
+
+@Composable
+fun DownloadProgressSheet(p: FetchProgress) {
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                "Downloading", color = Ink.Text,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(Modifier.weight(1f))
+            if (p.bytesPerSec > 1e4) Text(
+                String.format(java.util.Locale.ROOT, "%.0f MB/s", p.bytesPerSec / 1e6),
+                style = Num.copy(fontSize = 13.sp, color = Ink.TextDim)
+            )
+        }
+        val frac = (p.doneBytes.toFloat() / p.totalBytes).coerceIn(0f, 1f)
+        Box(
+            Modifier.fillMaxWidth().height(4.dp)
+                .clip(RoundedCornerShape(50)).background(Ink.PanelHi)
+        ) {
+            Box(
+                Modifier.fillMaxWidth(frac).height(4.dp)
+                    .clip(RoundedCornerShape(50)).background(Ink.Accent)
+            )
+        }
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                "${gb(p.doneBytes)} of ${gb(p.totalBytes)} GB · file ${p.fileIndex}/${p.fileCount}",
+                style = Num.copy(fontSize = 12.5.sp, color = Ink.TextDim)
+            )
+            Spacer(Modifier.weight(1f))
+            val left = p.totalBytes - p.doneBytes
+            if (p.bytesPerSec > 1e4) {
+                val s = (left / p.bytesPerSec).toInt()
+                Text(
+                    if (s < 90) "${s}s left" else "${(s + 30) / 60} min left",
+                    style = Num.copy(fontSize = 12.5.sp, color = Ink.TextDim)
+                )
+            }
+        }
+        Caption("Keep the app open. An interrupted download resumes where it stopped.",
+            Ink.TextFaint)
+    }
+}
+
+@Composable
+fun DownloadFailedSheet(message: String, onRetry: () -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text(
+                "Download interrupted",
+                color = Ink.Text, style = MaterialTheme.typography.headlineMedium
+            )
+            Caption(message, Ink.Warn)
+            Caption("Nothing already downloaded is lost — it resumes from where it stopped.")
+        }
+        PrimaryButton("Resume", Glyph.DOWNLOAD, true, Modifier.fillMaxWidth()) { onRetry() }
     }
 }
 
