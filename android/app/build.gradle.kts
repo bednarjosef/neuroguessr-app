@@ -21,8 +21,8 @@ android {
         applicationId = "com.neuroguessr.app"
         minSdk = 29
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.2"
+        versionCode = 3
+        versionName = "0.2.1"
         ndk { abiFilters += "arm64-v8a" }
     }
 
@@ -46,6 +46,11 @@ android {
         }
         debug {
             isMinifyEnabled = false
+            // debug builds carry the release signature so a dev install and a release install
+            // update over each other — a debug-signed 0.1 taught us Android's alternative
+            if (keystoreProps.isNotEmpty()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
@@ -66,6 +71,7 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.exifinterface:exifinterface:1.3.7")

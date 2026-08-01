@@ -17,12 +17,15 @@ download below, the app never touches the network.
 You need an **arm64 phone with Android 10 or newer** and about **4.5 GB free**.
 
 1. On the phone, download and open
-   **[neuroguessr-0.2.apk](https://huggingface.co/josefbednar/neuroguessr-app/resolve/main/neuroguessr-0.2.apk?download=true)**
+   **[neuroguessr-0.2.1.apk](https://huggingface.co/josefbednar/neuroguessr-app/resolve/main/neuroguessr-0.2.1.apk?download=true)**
    (40 MB). Android will ask you to allow installs from your browser — allow it, install,
    and you can revoke the permission afterwards.
-2. Open NeuroGuessr and tap **Download 2.20 GB**. Do it on Wi-Fi and keep the app open;
-   it takes a few minutes. If it gets interrupted, reopening the app resumes where it stopped.
+2. Open NeuroGuessr and tap **Download 2.20 GB** on Wi-Fi. It runs in the background — lock
+   the phone or switch apps, it keeps going and resumes if interrupted.
 3. That's it. Pick a photo or take one, and it lands on the map.
+
+If an older build is already installed and the update fails with "App not installed",
+uninstall the old one first — early builds carried a different signature.
 
 ## What's in here
 

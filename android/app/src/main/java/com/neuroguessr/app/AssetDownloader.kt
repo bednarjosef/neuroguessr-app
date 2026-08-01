@@ -55,6 +55,14 @@ data class FetchProgress(
     val bytesPerSec: Double,
 )
 
+/** Where a fresh install is in acquiring its 2.2 GB. Null means the assets are in place. */
+sealed interface FetchState {
+    data class Idle(val totalBytes: Long) : FetchState
+    data class Running(val p: FetchProgress) : FetchState
+    data class Failed(val message: String) : FetchState
+    data object Complete : FetchState
+}
+
 object AssetDownloader {
     private const val TAG = "AssetDownloader"
     private const val SLACK = 300L * 1024 * 1024   // breathing room beyond the assets themselves

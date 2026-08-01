@@ -567,8 +567,8 @@ fun DownloadProgressSheet(p: FetchProgress) {
                 )
             }
         }
-        Caption("Keep the app open. An interrupted download resumes where it stopped.",
-            Ink.TextFaint)
+        Caption("Runs in the background — lock the phone or leave, it keeps going. " +
+                "An interrupted download resumes where it stopped.", Ink.TextFaint)
     }
 }
 

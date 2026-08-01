@@ -136,20 +136,12 @@ class MainActivity : ComponentActivity() {
     }
 
     // ---- the app ----------------------------------------------------------------------
-
-    /** Where a fresh install is in acquiring its 2.2 GB of assets. Null once they exist. */
-    private sealed interface FetchState {
-        data class Idle(val manifest: AssetManifest) : FetchState
-        data class Running(val p: FetchProgress) : FetchState
-        data class Failed(val manifest: AssetManifest, val message: String) : FetchState
-    }
-
     @Composable
     private fun AppScreen() {
         var eng by remember { mutableStateOf<Engine?>(null) }
         var map by remember { mutableStateOf<WorldMap?>(null) }
         var loadError by remember { mutableStateOf<String?>(null) }
-        var fetch by remember { mutableStateOf<FetchState?>(null) }
+        val fetch by DownloadService.state.collectAsState()
 
         var result by remember { mutableStateOf<LocateResult?>(null) }
         var country by remember { mutableStateOf("") }
@@ -178,40 +170,37 @@ class MainActivity : ComponentActivity() {
                     Paths.ensureDirs(this@MainActivity)
                     val manifest = AssetManifest.fromAssets(this@MainActivity)
                     if (AssetDownloader.complete(this@MainActivity, manifest)) loadEngine()
-                    else withContext(Dispatchers.Main) { fetch = FetchState.Idle(manifest) }
+                    // a service run may already be underway (or finished) from a previous
+                    // visit — only offer the download when nothing else is happening
+                    else DownloadService.state.compareAndSet(
+                        null, FetchState.Idle(manifest.totalBytes)
+                    )
                 } catch (t: Throwable) {
                     withContext(Dispatchers.Main) { loadError = t.message ?: t.toString() }
                 }
             }
         }
 
-        fun startFetch(manifest: AssetManifest) {
-            fetch = FetchState.Running(
-                FetchProgress(0, manifest.totalBytes, 1, manifest.files.size, "", 0.0)
-            )
-            scope.launch(Dispatchers.IO) {
-                try {
-                    AssetDownloader.run(this@MainActivity, manifest) { p ->
-                        fetch = FetchState.Running(p)
-                    }
-                    withContext(Dispatchers.Main) { fetch = null }
-                    loadEngine()
-                } catch (t: Throwable) {
-                    if (t is kotlinx.coroutines.CancellationException) throw t
-                    Log.w("NGUI", "download failed", t)
-                    withContext(Dispatchers.Main) {
-                        fetch = FetchState.Failed(manifest, t.message ?: t.toString())
-                    }
-                }
+        // the service finished (possibly while the app was backgrounded): load and play
+        LaunchedEffect(fetch) {
+            if (fetch !is FetchState.Complete) return@LaunchedEffect
+            DownloadService.state.value = null
+            try {
+                loadEngine()
+            } catch (t: Throwable) {
+                withContext(Dispatchers.Main) { loadError = t.message ?: t.toString() }
             }
         }
 
-        // a phone that dozes off mid-download kills the connection; keep it awake while we pull
-        val downloading = fetch is FetchState.Running
-        DisposableEffect(downloading) {
-            val f = android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-            if (downloading) window.addFlags(f)
-            onDispose { window.clearFlags(f) }
+        val notifPerm = rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { }
+        fun startFetch() {
+            if (android.os.Build.VERSION.SDK_INT >= 33 && checkSelfPermission(
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) notifPerm.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            DownloadService.start(this)
         }
 
         // a live clock while the encoder works, so the wait never looks like a freeze
@@ -354,14 +343,14 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    Sheet(fetch != null) {
+                    Sheet(fetch != null && fetch !is FetchState.Complete) {
                         when (val f = fetch) {
                             is FetchState.Idle ->
-                                DownloadOfferSheet(f.manifest.totalBytes) { startFetch(f.manifest) }
+                                DownloadOfferSheet(f.totalBytes) { startFetch() }
                             is FetchState.Running -> DownloadProgressSheet(f.p)
                             is FetchState.Failed ->
-                                DownloadFailedSheet(f.message) { startFetch(f.manifest) }
-                            null -> {}
+                                DownloadFailedSheet(f.message) { startFetch() }
+                            else -> {}
                         }
                     }
 
